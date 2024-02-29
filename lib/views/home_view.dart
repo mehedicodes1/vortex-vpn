@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vortex_vpn/env/env.dart';
 import 'package:vortex_vpn/themes/colors.dart';
+import 'package:vortex_vpn/views/pro_view.dart';
 import 'package:vortex_vpn/widgets/dashboard.dart';
 import 'package:vortex_vpn/widgets/drawer.dart';
 import 'package:vortex_vpn/widgets/speedtest.dart';
@@ -43,27 +44,37 @@ class _HomeViewState extends State<HomeView> {
                       color: TextColor,
                       fontSize: 15),
                 ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(20)),
-                  child: const Row(
-                    children: [
-                      Icon(
-                        CupertinoIcons.star_circle,
-                        size: 16,
-                        color: TextColor,
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProView(),
                       ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        'Get Premium',
-                        style: TextStyle(color: Colors.white, fontSize: 14),
-                      )
-                    ],
+                    );
+                  },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: const Row(
+                      children: [
+                        Icon(
+                          CupertinoIcons.star_circle,
+                          size: 16,
+                          color: TextColor,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          'Get Premium',
+                          style: TextStyle(color: Colors.white, fontSize: 14),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
