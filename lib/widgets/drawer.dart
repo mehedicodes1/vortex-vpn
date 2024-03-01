@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vortex_vpn/themes/colors.dart';
+import 'package:vortex_vpn/views/account_view.dart';
+import 'package:vortex_vpn/views/pro_view.dart';
 
 class DrawerView extends StatelessWidget {
   const DrawerView({super.key});
@@ -46,7 +48,14 @@ class DrawerView extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProView(),
+                  ),
+                );
+              },
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -76,7 +85,14 @@ class DrawerView extends StatelessWidget {
               color: CupertinoColors.lightBackgroundGray,
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AccountView(),
+                  ),
+                );
+              },
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
