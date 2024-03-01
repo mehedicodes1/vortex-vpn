@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vortex_vpn/env/env.dart';
 import 'package:vortex_vpn/themes/colors.dart';
 import 'package:vortex_vpn/views/home_view.dart';
+import 'package:vortex_vpn/views/login_view.dart';
 import 'package:vortex_vpn/views/pro_view.dart';
 
 void main() {
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomeView(),
+      home: const LoginView(),
     );
   }
 }
