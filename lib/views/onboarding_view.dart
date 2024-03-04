@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:vortex_vpn/env/env.dart';
 import 'package:vortex_vpn/themes/colors.dart';
-import 'package:vortex_vpn/views/login_view.dart';
+import 'package:vortex_vpn/views/home_view.dart';
 
 class OnbordingView extends StatefulWidget {
   const OnbordingView({super.key});
@@ -10,145 +13,162 @@ class OnbordingView extends StatefulWidget {
 }
 
 class _OnbordingViewState extends State<OnbordingView> {
-  int currentPage = 0;
-  PageController pageController = PageController();
-  List<Map<String, dynamic>> onboardData = [
-    {
-      'image': 'assets/images/logo.png',
-      'title': 'Vortex VPN',
-      'description': 'Welcome to the most gorgius vpn ever',
-    },
-    {
-      'image': 'assets/images/shield.png',
-      'title': 'Vortex VPN',
-      'description': 'Welcome to the most gorgius vpn ever',
-    },
-    {
-      'image': 'assets/images/network.png',
-      'title': 'Vortex VPN',
-      'description': 'Welcome to the most gorgius vpn ever',
-    }
+  int _currentPage = 0;
+  final _pageControlar = PageController();
+
+  List<OnbordingItem> onbordingItems = [
+    OnbordingItem(Title: OnTitle1, Dis: OnBD1, Image: 'assets/images/logo.png'),
+    OnbordingItem(
+        Title: OnTitle2, Dis: OnBD2, Image: 'assets/images/Server.png'),
+    OnbordingItem(
+        Title: OnTitle3, Dis: OnBD3, Image: 'assets/images/Security-On.png'),
   ];
-  @override
-  void dispose() {
-    super.dispose();
-    pageController.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor,
-      body: Stack(
-        children: [
-          PageView.builder(
-              controller: pageController,
-              itemCount: onboardData.length,
-              scrollDirection: Axis.horizontal,
-              onPageChanged: (value) {
-                setState(() {
-                  currentPage = value;
-                });
-              },
-              itemBuilder: (BuildContext context, index) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      onboardData[index]['image'],
-                      width: 150,
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Text(
-                      onboardData[index]['title'],
-                      style: const TextStyle(color: TextColor, fontSize: 25),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      onboardData[index]['description'],
-                      style: const TextStyle(color: TextDisColor, fontSize: 14),
-                    ),
-                  ],
-                );
-              }),
-          (currentPage == (onboardData.length - 1))
-              ? const SizedBox()
-              : Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 15.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        pageController.nextPage(
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.easeInOut);
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 50,
-                        width: 300,
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.indigo),
-                        child: const Text(
-                          'Next',
-                          style: TextStyle(color: TextColor),
-                        ),
-                      ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            if (_currentPage == 2) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => HomeView()),
+              );
+            } else if (_currentPage < onbordingItems.length - 1) {
+              _pageControlar.nextPage(
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeIn);
+            }
+          },
+          child: const Icon(
+            CupertinoIcons.arrow_right,
+            color: Colors.white,
+          ),
+          backgroundColor: Colors.deepPurple,
+        ),
+        backgroundColor: AppColor,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(14.0),
+            child: Column(
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeView()),
+                    );
+                  },
+                  child: const Align(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      'Skip',
+                      style: TextStyle(color: TextColor),
                     ),
                   ),
                 ),
-          (currentPage == (onboardData.length - 1))
-              ? Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 30.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              fixedSize: const Size(150, 50),
-                              backgroundColor: Colors.indigo),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const LoginView(),
-                              ),
-                            );
-                          },
-                          child: const Text(
-                            'Login/Register',
-                            style: TextStyle(color: TextColor),
+                const SizedBox(
+                  height: 25,
+                ),
+                Expanded(
+                  child: PageView.builder(
+                    controller: _pageControlar,
+                    onPageChanged: (value) {
+                      setState(() {
+                        _currentPage = value;
+                      });
+                    },
+                    itemCount: onbordingItems.length,
+                    itemBuilder: (context, index) {
+                      final item = onbordingItems[index];
+                      return Column(
+                        children: [
+                          Image.asset(item.Image),
+                          const SizedBox(
+                            height: 20,
                           ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              fixedSize: const Size(150, 50),
-                              backgroundColor: Colors.white),
-                          onPressed: () {},
-                          child: const Text(
-                            'Skip',
-                            style: TextStyle(color: Colors.indigo),
+                          SizedBox(
+                            height: 30,
                           ),
-                        ),
-                      ],
-                    ),
+                          Text(
+                            item.Title,
+                            style: TextStyle(
+                              color: TextColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            item.Dis,
+                            style: TextStyle(
+                              color: TextDisColor,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
-                )
-              : const SizedBox(),
-        ],
-      ),
-    );
+                ),
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Row(
+                      children: List.generate(
+                    3,
+                    (index) {
+                      return Padding(
+                        padding: EdgeInsets.only(left: 5),
+                        child: Icon(
+                          _currentPage == index
+                              ? CupertinoIcons.circle_fill
+                              : CupertinoIcons.circle,
+                          color: _currentPage == index
+                              ? Colors.deepPurple
+                              : Colors.grey,
+                          size: 16,
+                        ),
+                      );
+                    },
+                  )
+
+                      // Icon(
+                      //   CupertinoIcons.circle_fill,
+                      //   color: Colors.deepPurple,
+                      //   size: 16,
+                      // ),
+                      // SizedBox(
+                      //   width: 5,
+                      // ),
+                      // Icon(
+                      //   CupertinoIcons.circle,
+                      //   color: Colors.grey,
+                      //   size: 16,
+                      // ),
+                      // SizedBox(
+                      //   width: 5,
+                      // ),
+                      // Icon(
+                      //   CupertinoIcons.circle,
+                      //   color: Colors.grey,
+                      //   size: 16,
+                      // ),
+
+                      ),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
+}
+
+class OnbordingItem {
+  final String Title;
+  final String Dis;
+  final String Image;
+
+  OnbordingItem({required this.Title, required this.Dis, required this.Image});
 }
